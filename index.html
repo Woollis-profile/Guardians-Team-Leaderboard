@@ -674,7 +674,7 @@ const DB = {
     set(d) { localStorage.setItem(this.KEY, JSON.stringify(d)) },
 
     getPins() {
-        const def = { head: null, assistant: null, manager: null };
+        const def = { head: null, assistant: null, manager: null, houseleader: null, seniorcoach: null };
         try { return { ...def, ...JSON.parse(localStorage.getItem(this.PIN_KEY)) } }
         catch(e){ return def }
     },
@@ -760,12 +760,15 @@ function openPinFor(purpose, role='') {
     pinState = { entered: '', purpose, role };
     document.getElementById('pinError').textContent = '';
     const titles = {
-        management: 'Team Management',
-        setPin:     'Verify Identity — ' + roleName(role),
-        clearData:  'Authorise Data Clear'
+        management:   'Team Management',
+        setPin:       'Verify Identity — ' + roleName(role),
+        clearData:    'Authorise Data Clear',
+        deletePlayer: 'Authorise Player Removal'
     };
     document.getElementById('pinTitle').textContent    = titles[purpose] || 'Enter PIN';
-    document.getElementById('pinSubtitle').textContent = 'Enter your 4-digit PIN to continue';
+    document.getElementById('pinSubtitle').textContent = purpose === 'deletePlayer'
+        ? 'Enter your staff PIN to authorise removing this player'
+        : 'Enter your 4-digit PIN to continue';
     updatePinDisplay('pin');
     document.getElementById('pinOverlay').classList.add('show');
 }
@@ -790,11 +793,12 @@ function verifyPin() {
     const purpose = pinState.purpose;
     const role    = pinState.role;
 
-    if (purpose === 'management' || purpose === 'clearData') {
+    if (purpose === 'management' || purpose === 'clearData' || purpose === 'deletePlayer') {
         if (!DB.verifyAnyPin(pin)) { showPinError('pin'); return; }
         document.getElementById('pinOverlay').classList.remove('show');
-        if (purpose === 'management') goto('management', null);
-        if (purpose === 'clearData')  document.getElementById('clearOverlay').classList.add('show');
+        if (purpose === 'management')   goto('management', null);
+        if (purpose === 'clearData')    document.getElementById('clearOverlay').classList.add('show');
+        if (purpose === 'deletePlayer') document.getElementById('deletePlayerOverlay').classList.add('show');
         return;
     }
     if (purpose === 'setPin') {
@@ -887,7 +891,7 @@ function confirmSetPin() {
 }
 
 function roleName(r) {
-    return { head:'Head Coach', assistant:'Assistant Coach', manager:'Team Manager' }[r] || r;
+    return { head:'Head Coach', assistant:'Assistant Coach', manager:'Team Manager', houseleader:'Guardians House Leader', seniorcoach:'Guardians Senior Coach' }[r] || r;
 }
 
 // ═══════════════════════════════════════════
@@ -905,9 +909,11 @@ function renderManagement() { renderRoleCards(); renderFileList(); }
 function renderRoleCards() {
     const pins  = DB.getPins();
     const roles = [
-        { key:'head',      label:'Head Coach',      icon:'👨‍🏫' },
-        { key:'assistant', label:'Assistant Coach',  icon:'🧑‍🏫' },
-        { key:'manager',   label:'Team Manager',     icon:'📋' }
+        { key:'head',        label:'Head Coach',               icon:'👨‍🏫' },
+        { key:'assistant',   label:'Assistant Coach',           icon:'🧑‍🏫' },
+        { key:'manager',     label:'Team Manager',              icon:'📋'  },
+        { key:'houseleader', label:'Guardians House Leader',    icon:'🏠'  },
+        { key:'seniorcoach', label:'Guardians Senior Coach',    icon:'⭐'  }
     ];
     document.getElementById('roleGrid').innerHTML = roles.map(r => {
         const isSet = pins[r.key] !== null;
@@ -1180,7 +1186,16 @@ function initiateDeletePlayer(id, name) {
     deletePlayerState = { id, name };
     document.getElementById('deletePlayerMessage').textContent = `Are you sure you want to remove ${name} from the leaderboard? This action cannot be undone.`;
     document.getElementById('deleteConfirmBtn').onclick = () => executeDeletePlayer();
-    document.getElementById('deletePlayerOverlay').classList.add('show');
+    // Require PIN before showing the confirm dialog
+    const pins = DB.getPins();
+    const anySet = Object.values(pins).some(v => v !== null);
+    if (!anySet) {
+        // No PINs configured yet — show confirm directly with a warning
+        document.getElementById('deletePlayerMessage').textContent = `⚠️ No staff PINs are set up yet.\n\nAre you sure you want to remove ${name}? Set staff PINs in Team Management to protect this action.`;
+        document.getElementById('deletePlayerOverlay').classList.add('show');
+    } else {
+        openPinFor('deletePlayer');
+    }
 }
 
 function executeDeletePlayer() {
