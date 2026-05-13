@@ -206,62 +206,36 @@
         .warning-box{background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.4);border-radius:var(--radius-md);padding:14px 16px;margin-bottom:12px;font-size:13px;color:#fca5a5;line-height:1.5}
         .warning-box strong{color:#ef4444;display:block;margin-bottom:4px}
 
+        /* ── LOADING STATE ── */
+        #lb-loading{display:none;text-align:center;padding:40px 20px;color:var(--text-secondary)}
+        #lb-loading .loading-icon{font-size:36px;margin-bottom:10px;animation:spin 1.2s linear infinite;display:inline-block}
+        @keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+        #lb-error{display:none;background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.4);border-radius:var(--radius-md);padding:16px;text-align:center;color:#fca5a5;font-size:14px;margin-bottom:12px}
+        #lb-error strong{display:block;margin-bottom:6px;font-size:15px;color:#ef4444}
+
         /* ── DESKTOP: sidebar visible ── */
         @media(min-width:901px){
             .sidebar{display:flex}
             .mobile-topbar{display:none}
         }
 
-        /* ── MOBILE / TABLET: sidebar becomes top bar ── */
+        /* ── MOBILE / TABLET ── */
         @media(max-width:900px){
             .app{flex-direction:column}
-
-            /* Hide the full sidebar on mobile */
             .sidebar{display:none}
-
-            /* Slim top bar replaces sidebar */
-            .mobile-topbar{
-                display:flex;
-                align-items:center;
-                gap:10px;
-                padding:12px 16px;
-                padding-top:calc(12px + env(safe-area-inset-top,0px));
-                background:linear-gradient(180deg,var(--navy) 0%,var(--navy-mid) 100%);
-                border-bottom:1px solid var(--border-gold);
-                position:sticky;
-                top:0;
-                z-index:50;
-            }
-            .mobile-topbar-logo{
-                font-size:22px;width:36px;height:36px;border-radius:50%;
-                border:2px solid var(--gold);display:flex;align-items:center;
-                justify-content:center;background:var(--navy-mid);flex-shrink:0;
-            }
-            .mobile-topbar-title{
-                font-family:var(--font-display);font-size:16px;font-weight:800;
-                color:var(--gold);text-transform:uppercase;letter-spacing:.05em;
-            }
+            .mobile-topbar{display:flex;align-items:center;gap:10px;padding:12px 16px;padding-top:calc(12px + env(safe-area-inset-top,0px));background:linear-gradient(180deg,var(--navy) 0%,var(--navy-mid) 100%);border-bottom:1px solid var(--border-gold);position:sticky;top:0;z-index:50}
+            .mobile-topbar-logo{font-size:22px;width:36px;height:36px;border-radius:50%;border:2px solid var(--gold);display:flex;align-items:center;justify-content:center;background:var(--navy-mid);flex-shrink:0}
+            .mobile-topbar-title{font-family:var(--font-display);font-size:16px;font-weight:800;color:var(--gold);text-transform:uppercase;letter-spacing:.05em}
             .mobile-topbar-sub{font-size:10px;color:var(--text-muted);text-transform:uppercase;letter-spacing:.06em;margin-top:1px}
-
-            /* Main content — full width, iOS-safe bottom padding */
-            .main{
-                padding:16px;
-                padding-bottom:calc(16px + env(safe-area-inset-bottom,0px));
-            }
-
-            /* Action cards: compact on phone */
+            .main{padding:16px;padding-bottom:calc(16px + env(safe-area-inset-bottom,0px))}
             .actions-grid{gap:8px;margin-bottom:16px}
             .action-card{padding:14px 8px}
             .action-icon{font-size:24px;margin-bottom:5px}
             .action-label{font-size:11px}
             .action-count{font-size:10px}
-
-            /* Page title smaller */
             .page-title{font-size:22px}
             .page-sub{font-size:13px}
             .page-hdr{margin-bottom:16px}
-
-            /* Leaderboard table: allow horizontal scroll, tighter cells */
             .lb-wrap{-webkit-overflow-scrolling:touch}
             .lb-table{font-size:12px;min-width:480px}
             .lb-table th,.lb-table td{padding:10px 10px}
@@ -269,28 +243,16 @@
             .pts-val{font-size:18px}
             .rank-tier-badge{font-size:11px;padding:4px 9px}
             .badge{font-size:10px;padding:2px 6px}
-
-            /* Cards tighter */
             .card{padding:14px;margin-bottom:12px}
             .card-hdr{padding:11px 14px;margin:-14px -14px 14px}
-
-            /* Stats grid: 2 col on phone */
             .stats-grid{grid-template-columns:repeat(2,1fr);gap:8px}
             .stat-val{font-size:22px}
-
-            /* Profile hero */
             .profile-hero{padding:20px 16px}
             .profile-avatar{width:72px;height:72px;font-size:24px}
             .profile-name{font-size:20px}
-
-            /* Role grid / export grid: single col */
             .role-grid,.export-grid{grid-template-columns:1fr}
-
-            /* Player cards grid: 1 col on narrow phones */
             .players-grid{grid-template-columns:1fr}
         }
-
-        /* ── VERY NARROW (iPhone SE etc.) ── */
         @media(max-width:380px){
             .actions-grid{grid-template-columns:repeat(3,1fr);gap:6px}
             .action-card{padding:12px 6px}
@@ -301,7 +263,6 @@
 </head>
 <body>
 
-<!-- Mobile-only top header bar (replaces sidebar on phones) -->
 <div class="mobile-topbar">
     <div class="mobile-topbar-logo">🏀</div>
     <div>
@@ -321,14 +282,11 @@
                 <p>U14 Coach Dashboard</p>
             </div>
         </div>
-
-        <!-- Nav: only the Leaderboard home button — sub-pages accessed via action cards -->
         <div class="sidebar-nav show" id="sidebarNav">
             <div class="nav-group">
                 <button class="nav-btn active" id="navLB" onclick="goto('leaderboard',this)"><span class="nav-icon">📊</span> Leaderboard</button>
             </div>
         </div>
-
         <div class="sidebar-footer">v1.0.0 &nbsp;|&nbsp; Guardians U14</div>
     </div>
 
@@ -342,7 +300,6 @@
                 <p class="page-sub">Guardians U14 — Overall Rankings</p>
             </div>
 
-            <!-- 3-button quick actions (no Export, no Clear Data) -->
             <div class="actions-grid">
                 <div class="action-card" onclick="goto('players',null)">
                     <div class="action-icon">👥</div>
@@ -361,7 +318,22 @@
                 </div>
             </div>
 
-            <!-- Rankings table -->
+            <!-- Refresh button -->
+            <div style="display:flex;justify-content:flex-end;margin-bottom:12px;gap:10px;align-items:center">
+                <span id="lb-last-updated" style="font-size:12px;color:var(--text-muted)"></span>
+                <button class="btn btn-sm" onclick="loadLeaderboard()" id="refresh-btn">🔄 Refresh</button>
+            </div>
+
+            <!-- Loading / error states -->
+            <div id="lb-loading">
+                <div class="loading-icon">🏀</div>
+                <div style="font-size:14px;margin-top:4px">Loading leaderboard…</div>
+            </div>
+            <div id="lb-error">
+                <strong>⚠️ Could not load leaderboard</strong>
+                Check your connection and tap Refresh to try again.
+            </div>
+
             <div class="card">
                 <div class="card-hdr">
                     <span class="card-hdr-title">📊 Rankings</span>
@@ -383,7 +355,7 @@
                 <div id="lbEmpty" class="empty" style="display:none">
                     <div class="empty-icon">🏀</div>
                     <div class="empty-title">No Players Yet</div>
-                    <p>Players appear here when they push data from the Guardians-U14 app.</p>
+                    <p>Players appear here when they push data from the Pioneers U14 app.</p>
                 </div>
             </div>
         </div>
@@ -433,16 +405,10 @@
                 <h1 class="page-title">Team Management</h1>
                 <p class="page-sub">PIN-protected admin tools — Coaches &amp; Team Manager</p>
             </div>
-
-            <!-- Staff PINs -->
             <div class="mgmt-section">
                 <div class="mgmt-section-title">🔑 Staff PINs</div>
-                <div class="role-grid" id="roleGrid">
-                    <!-- rendered by JS -->
-                </div>
+                <div class="role-grid" id="roleGrid"></div>
             </div>
-
-            <!-- File Upload -->
             <div class="mgmt-section">
                 <div class="mgmt-section-title">📁 Files &amp; Documents</div>
                 <div class="upload-zone" onclick="document.getElementById('fileInput').click()">
@@ -453,8 +419,6 @@
                 </div>
                 <div class="file-list" id="fileList"></div>
             </div>
-
-            <!-- Export Tools -->
             <div class="mgmt-section">
                 <div class="mgmt-section-title">📥 Export Data</div>
                 <div class="export-grid">
@@ -475,8 +439,6 @@
                     </div>
                 </div>
             </div>
-
-            <!-- Clear Data -->
             <div class="mgmt-section">
                 <div class="mgmt-section-title">🗑️ Danger Zone</div>
                 <div class="warning-box">
@@ -596,21 +558,125 @@
 
 <script>
 // ═══════════════════════════════════════════
-//  DATA MANAGER
+//  ★ JSONBIN MODULE ★
+//  Reads the shared bin that player apps push to.
+//  Write is also included so clear-data can wipe the bin.
+// ═══════════════════════════════════════════
+const JSONBIN = {
+    BIN_ID:     '6a01a4e6250b1311c332dd44',
+    ACCESS_KEY: '$2a$10$eJdDS0tMBKRnAS5Sjyj3Ae4nOm0J2p2tXrCDOiB49mTaBg6U1Y54O',
+    BASE:       'https://api.jsonbin.io/v3/b',
+
+    async read() {
+        const res = await fetch(this.BASE + '/' + this.BIN_ID + '/latest', {
+            headers: { 'X-Access-Key': this.ACCESS_KEY }
+        });
+        if (!res.ok) throw new Error('Read failed: ' + res.status);
+        const data = await res.json();
+        return data.record;
+    },
+
+    async write(record) {
+        const res = await fetch(this.BASE + '/' + this.BIN_ID, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-Access-Key': this.ACCESS_KEY
+            },
+            body: JSON.stringify(record)
+        });
+        if (!res.ok) throw new Error('Write failed: ' + res.status);
+        return await res.json();
+    }
+};
+
+// ═══════════════════════════════════════════
+//  ★ LOAD LEADERBOARD FROM JSONBIN ★
+//  Called on DOMContentLoaded and on Refresh tap.
+//  Reads record.players[], upserts each into DB,
+//  then re-renders the leaderboard.
+// ═══════════════════════════════════════════
+async function loadLeaderboard() {
+    const loadingEl = document.getElementById('lb-loading');
+    const errorEl   = document.getElementById('lb-error');
+    const refreshBtn = document.getElementById('refresh-btn');
+    const lastUpdEl = document.getElementById('lb-last-updated');
+
+    if (loadingEl) loadingEl.style.display = 'block';
+    if (errorEl)   errorEl.style.display   = 'none';
+    if (refreshBtn) { refreshBtn.disabled = true; refreshBtn.textContent = '⏳ Loading…'; }
+
+    try {
+        const record = await JSONBIN.read();
+        const players = Array.isArray(record.players) ? record.players : [];
+
+        players.forEach(p => {
+            if (!p.name) return;
+            DB.upsertPlayer({
+                id:   p.id || p.name.trim().toLowerCase().replace(/\s+/g, '-'),
+                name: p.name,
+                number:   p.number   || '00',
+                position: p.position || '',
+                team:     p.team     || 'Pioneers U14',
+                totalPoints: p.totalPoints || 0,
+                rank:     p.rank     || '',
+                badges:         p.badges         || [],
+                shootingBadges: p.shootingBadges || [],
+                shootingStats: {
+                    layupAccuracy:     p.shootingStats?.layupAccuracy     || 0,
+                    midRangeAccuracy:  p.shootingStats?.midRangeAccuracy  || 0,
+                    freeThrowAccuracy: p.shootingStats?.freeThrowAccuracy || 0,
+                    threePointAccuracy:p.shootingStats?.threePointAccuracy|| 0
+                },
+                skillSessionsCompleted:    p.skillSessionsCompleted    || 0,
+                physicalSessionsCompleted: p.physicalSessionsCompleted || 0,
+                drillsCompleted:    p.drillsCompleted    || 0,
+                totalDrillDays:     p.totalDrillDays     || 0,
+                shotTestsCompleted: p.shotTestsCompleted || 0,
+                lastUpdated: p.lastUpdated || new Date().toISOString()
+            });
+        });
+
+        if (record.lastUpdated) {
+            const d = new Date(record.lastUpdated);
+            if (lastUpdEl) lastUpdEl.textContent = 'Last push: ' + d.toLocaleString();
+        }
+
+        renderLeaderboard();
+
+        if (players.length > 0) {
+            DB.addNotification('📊 Leaderboard refreshed', players.length + ' player' + (players.length !== 1 ? 's' : '') + ' loaded from JSONBin');
+        }
+
+    } catch (err) {
+        console.error('Leaderboard load error:', err);
+        if (errorEl) errorEl.style.display = 'block';
+        // Still render whatever is cached locally
+        renderLeaderboard();
+    } finally {
+        if (loadingEl) loadingEl.style.display = 'none';
+        if (refreshBtn) { refreshBtn.disabled = false; refreshBtn.textContent = '🔄 Refresh'; }
+    }
+}
+
+// ═══════════════════════════════════════════
+//  DATA MANAGER  (local cache for this session)
 // ═══════════════════════════════════════════
 const DB = {
-    KEY: 'guardians_v1_data',
-    PIN_KEY: 'guardians_pins',
+    KEY:      'guardians_v1_data',
+    PIN_KEY:  'guardians_pins',
     FILE_KEY: 'guardians_files',
 
     get() {
-        try { return JSON.parse(localStorage.getItem(this.KEY)) || {players:{},notifications:[]} } catch(e){ return {players:{},notifications:[]} }
+        try { return JSON.parse(localStorage.getItem(this.KEY)) || {players:{},notifications:[]} }
+        catch(e){ return {players:{},notifications:[]} }
     },
     set(d) { localStorage.setItem(this.KEY, JSON.stringify(d)) },
 
     getPins() {
         const def = { head: null, assistant: null, manager: null };
-        try { return { ...def, ...JSON.parse(localStorage.getItem(this.PIN_KEY)) } } catch(e){ return def }
+        try { return { ...def, ...JSON.parse(localStorage.getItem(this.PIN_KEY)) } }
+        catch(e){ return def }
     },
     setPin(role, pin) {
         const p = this.getPins(); p[role] = pin;
@@ -622,7 +688,8 @@ const DB = {
     },
 
     getFiles() {
-        try { return JSON.parse(localStorage.getItem(this.FILE_KEY)) || [] } catch(e){ return [] }
+        try { return JSON.parse(localStorage.getItem(this.FILE_KEY)) || [] }
+        catch(e){ return [] }
     },
     addFile(file) {
         const files = this.getFiles(); files.unshift(file);
@@ -634,21 +701,20 @@ const DB = {
     },
 
     allPlayers() {
-        return Object.values(this.get().players).sort((a,b)=>(b.totalPoints||0)-(a.totalPoints||0));
+        return Object.values(this.get().players).sort((a,b) => (b.totalPoints||0) - (a.totalPoints||0));
     },
     getPlayer(id) { return this.get().players[id] || null },
     upsertPlayer(data) {
         const d = this.get();
-        const id = data.name.toLowerCase().replace(/\s+/g,'-');
-        d.players[id] = { ...d.players[id], ...data, id, lastUpdated: new Date().toISOString() };
+        const id = data.id || data.name.toLowerCase().replace(/\s+/g,'-');
+        d.players[id] = { ...d.players[id], ...data, id, lastUpdated: data.lastUpdated || new Date().toISOString() };
         this.set(d); return id;
     },
     deletePlayer(id) {
         const d = this.get();
         const playerName = d.players[id]?.name || 'Unknown';
         delete d.players[id];
-        this.set(d);
-        return playerName;
+        this.set(d); return playerName;
     },
     addNotification(title, message) {
         const d = this.get();
@@ -658,7 +724,6 @@ const DB = {
     clearAll() {
         const p = this.getPins(), f = this.getFiles();
         this.set({players:{},notifications:[]});
-        // Restore pins & files — they belong to config not data
         localStorage.setItem(this.PIN_KEY, JSON.stringify(p));
         localStorage.setItem(this.FILE_KEY, JSON.stringify(f));
     }
@@ -674,19 +739,16 @@ function goto(name, btn) {
     document.getElementById('pg-' + name).classList.add('active');
     currentPage = name;
 
-    // Sidebar nav only visible on the leaderboard home page
     const isHome = name === 'leaderboard';
     document.getElementById('sidebarNav').classList.toggle('show', isHome);
-
-    // navLB is the only sidebar nav button remaining — always mark it active on home
     const navLB = document.getElementById('navLB');
     if (navLB) navLB.classList.toggle('active', isHome);
 
-    if (name === 'leaderboard')     renderLeaderboard();
-    if (name === 'players')         renderPlayers();
-    if (name === 'notifications')   renderNotifs();
-    if (name === 'management')      renderManagement();
-    window.scrollTo(0,0);
+    if (name === 'leaderboard')   renderLeaderboard();
+    if (name === 'players')       renderPlayers();
+    if (name === 'notifications') renderNotifs();
+    if (name === 'management')    renderManagement();
+    window.scrollTo(0, 0);
 }
 
 // ═══════════════════════════════════════════
@@ -699,10 +761,10 @@ function openPinFor(purpose, role='') {
     document.getElementById('pinError').textContent = '';
     const titles = {
         management: 'Team Management',
-        setPin: 'Verify Identity — ' + roleName(role),
-        clearData: 'Authorise Data Clear'
+        setPin:     'Verify Identity — ' + roleName(role),
+        clearData:  'Authorise Data Clear'
     };
-    document.getElementById('pinTitle').textContent = titles[purpose] || 'Enter PIN';
+    document.getElementById('pinTitle').textContent    = titles[purpose] || 'Enter PIN';
     document.getElementById('pinSubtitle').textContent = 'Enter your 4-digit PIN to continue';
     updatePinDisplay('pin');
     document.getElementById('pinOverlay').classList.add('show');
@@ -716,9 +778,9 @@ function closePinOverlay() {
 
 function pinKey(k) {
     const e = pinState.entered;
-    if (k === 'CLR') { pinState.entered = ''; }
+    if (k === 'CLR')      { pinState.entered = ''; }
     else if (k === 'DEL') { pinState.entered = e.slice(0,-1); }
-    else if (e.length < 4) { pinState.entered += k; }
+    else if (e.length < 4){ pinState.entered += k; }
     updatePinDisplay('pin');
     if (pinState.entered.length === 4) setTimeout(verifyPin, 180);
 }
@@ -726,37 +788,38 @@ function pinKey(k) {
 function verifyPin() {
     const pin = pinState.entered;
     const purpose = pinState.purpose;
-    const role = pinState.role;
+    const role    = pinState.role;
 
     if (purpose === 'management' || purpose === 'clearData') {
-        if (!DB.verifyAnyPin(pin)) {
-            showPinError('pin'); return;
-        }
+        if (!DB.verifyAnyPin(pin)) { showPinError('pin'); return; }
         document.getElementById('pinOverlay').classList.remove('show');
-        if (purpose === 'management') { goto('management', document.getElementById('navMG')); }
-        if (purpose === 'clearData')  { document.getElementById('clearOverlay').classList.add('show'); }
+        if (purpose === 'management') goto('management', null);
+        if (purpose === 'clearData')  document.getElementById('clearOverlay').classList.add('show');
         return;
     }
-
     if (purpose === 'setPin') {
-        // Verify they know an existing pin first (unless no pins set at all)
         const pins = DB.getPins();
         const anySet = Object.values(pins).some(v => v !== null);
-        if (anySet && !DB.verifyAnyPin(pin)) {
-            showPinError('pin'); return;
-        }
-        // Move to set-pin step
+        if (anySet && !DB.verifyAnyPin(pin)) { showPinError('pin'); return; }
         document.getElementById('pinOverlay').classList.remove('show');
         openSetPin(role);
     }
 }
 
 function showPinError(type) {
-    const ids = type === 'pin' ? ['pd0','pd1','pd2','pd3','pinError'] : ['spd0','spd1','spd2','spd3','setPinError'];
-    ids.slice(0,4).forEach(id => { const el = document.getElementById(id); el.classList.add('error'); el.classList.remove('filled'); });
+    const ids = type === 'pin'
+        ? ['pd0','pd1','pd2','pd3','pinError']
+        : ['spd0','spd1','spd2','spd3','setPinError'];
+    ids.slice(0,4).forEach(id => {
+        const el = document.getElementById(id);
+        el.classList.add('error'); el.classList.remove('filled');
+    });
     document.getElementById(ids[4]).textContent = 'Incorrect PIN — try again';
     setTimeout(() => {
-        ids.slice(0,4).forEach(id => { const el = document.getElementById(id); el.classList.remove('error','filled'); });
+        ids.slice(0,4).forEach(id => {
+            const el = document.getElementById(id);
+            el.classList.remove('error','filled');
+        });
         if (type === 'pin') pinState.entered = ''; else setPinState.entered = '';
         updatePinDisplay(type);
     }, 900);
@@ -770,8 +833,7 @@ function updatePinDisplay(type) {
         el.classList.toggle('filled', i < entered.length);
         el.classList.remove('error');
     });
-    if (type === 'pin') document.getElementById('pinError').textContent = '';
-    else document.getElementById('setPinError').textContent = '';
+    document.getElementById(type === 'pin' ? 'pinError' : 'setPinError').textContent = '';
 }
 
 // ═══════════════════════════════════════════
@@ -782,9 +844,9 @@ let setPinState = { entered: '', role: null, step: 'enter', first: '' };
 function openSetPin(role) {
     setPinState = { entered: '', role, step: 'enter', first: '' };
     const hasPin = DB.getPins()[role] !== null;
-    document.getElementById('setPinTitle').textContent = (hasPin ? 'Reset PIN — ' : 'Create PIN — ') + roleName(role);
+    document.getElementById('setPinTitle').textContent    = (hasPin ? 'Reset PIN — ' : 'Create PIN — ') + roleName(role);
     document.getElementById('setPinSubtitle').textContent = 'Enter a new 4-digit PIN';
-    document.getElementById('setPinError').textContent = '';
+    document.getElementById('setPinError').textContent    = '';
     updatePinDisplay('setPin');
     document.getElementById('setPinOverlay').classList.add('show');
 }
@@ -796,18 +858,18 @@ function closeSetPinOverlay() {
 
 function setPinKey(k) {
     const e = setPinState.entered;
-    if (k === 'CLR') { setPinState.entered = ''; }
+    if (k === 'CLR')      { setPinState.entered = ''; }
     else if (k === 'DEL') { setPinState.entered = e.slice(0,-1); }
-    else if (e.length < 4) { setPinState.entered += k; }
+    else if (e.length < 4){ setPinState.entered += k; }
     updatePinDisplay('setPin');
     if (setPinState.entered.length === 4) setTimeout(confirmSetPin, 180);
 }
 
 function confirmSetPin() {
     if (setPinState.step === 'enter') {
-        setPinState.first = setPinState.entered;
-        setPinState.entered = '';
-        setPinState.step = 'confirm';
+        setPinState.first    = setPinState.entered;
+        setPinState.entered  = '';
+        setPinState.step     = 'confirm';
         document.getElementById('setPinSubtitle').textContent = 'Confirm your new PIN';
         updatePinDisplay('setPin');
     } else {
@@ -815,8 +877,7 @@ function confirmSetPin() {
             document.getElementById('setPinError').textContent = 'PINs don\'t match — try again';
             setPinState.entered = ''; setPinState.step = 'enter'; setPinState.first = '';
             document.getElementById('setPinSubtitle').textContent = 'Enter a new 4-digit PIN';
-            updatePinDisplay('setPin');
-            return;
+            updatePinDisplay('setPin'); return;
         }
         DB.setPin(setPinState.role, setPinState.entered);
         closeSetPinOverlay();
@@ -826,40 +887,32 @@ function confirmSetPin() {
 }
 
 function roleName(r) {
-    return { head: 'Head Coach', assistant: 'Assistant Coach', manager: 'Team Manager' }[r] || r;
+    return { head:'Head Coach', assistant:'Assistant Coach', manager:'Team Manager' }[r] || r;
 }
 
 // ═══════════════════════════════════════════
 //  MANAGEMENT PAGE
 // ═══════════════════════════════════════════
 function openManagement() {
-    const pins = DB.getPins();
+    const pins  = DB.getPins();
     const anySet = Object.values(pins).some(v => v !== null);
-    if (!anySet) {
-        // No pins configured yet — allow first-time setup without PIN
-        goto('management', document.getElementById('navMG'));
-    } else {
-        openPinFor('management');
-    }
+    if (!anySet) goto('management', null);
+    else openPinFor('management');
 }
 
-function renderManagement() {
-    renderRoleCards();
-    renderFileList();
-}
+function renderManagement() { renderRoleCards(); renderFileList(); }
 
 function renderRoleCards() {
-    const pins = DB.getPins();
+    const pins  = DB.getPins();
     const roles = [
-        { key: 'head',      label: 'Head Coach',       icon: '👨‍🏫' },
-        { key: 'assistant', label: 'Assistant Coach',   icon: '🧑‍🏫' },
-        { key: 'manager',   label: 'Team Manager',      icon: '📋' }
+        { key:'head',      label:'Head Coach',      icon:'👨‍🏫' },
+        { key:'assistant', label:'Assistant Coach',  icon:'🧑‍🏫' },
+        { key:'manager',   label:'Team Manager',     icon:'📋' }
     ];
     document.getElementById('roleGrid').innerHTML = roles.map(r => {
         const isSet = pins[r.key] !== null;
-        const pips = Array.from({length:4}, (_,i) => `<div class="pin-pip ${isSet ? 'set' : ''}"></div>`).join('');
-        return `
-        <div class="role-card">
+        const pips  = Array.from({length:4}, () => `<div class="pin-pip ${isSet ? 'set' : ''}"></div>`).join('');
+        return `<div class="role-card">
             <div class="role-name">${r.icon} ${r.label}</div>
             <div class="role-sub">Individual 4-digit access PIN</div>
             <div class="pin-status">${pips}</div>
@@ -874,33 +927,19 @@ function renderRoleCards() {
 }
 
 function startSetPin(role) {
-    const pins = DB.getPins();
-    const anySet = Object.values(pins).some(v => v !== null);
-    if (anySet) {
-        // Require current PIN verification first
-        openPinFor('setPin', role);
-    } else {
-        // First-time setup, go straight to create
-        openSetPin(role);
-    }
+    const anySet = Object.values(DB.getPins()).some(v => v !== null);
+    if (anySet) openPinFor('setPin', role);
+    else openSetPin(role);
 }
 
 // ═══════════════════════════════════════════
 //  FILE UPLOAD
 // ═══════════════════════════════════════════
 function handleFileUpload(input) {
-    const files = Array.from(input.files);
-    files.forEach(file => {
+    Array.from(input.files).forEach(file => {
         const reader = new FileReader();
         reader.onload = e => {
-            DB.addFile({
-                id: Date.now() + Math.random(),
-                name: file.name,
-                size: file.size,
-                type: file.type,
-                data: e.target.result,
-                uploaded: new Date().toISOString()
-            });
+            DB.addFile({ id: Date.now() + Math.random(), name: file.name, size: file.size, type: file.type, data: e.target.result, uploaded: new Date().toISOString() });
             renderFileList();
             showToast('📁 File uploaded', file.name + ' added successfully');
         };
@@ -911,7 +950,7 @@ function handleFileUpload(input) {
 
 function renderFileList() {
     const files = DB.getFiles();
-    const list = document.getElementById('fileList');
+    const list  = document.getElementById('fileList');
     if (files.length === 0) { list.innerHTML = '<div style="font-size:13px;color:var(--text-muted);padding:8px 0">No files uploaded yet</div>'; return; }
     list.innerHTML = files.map(f => {
         const icon = f.type.includes('pdf') ? '📄' : f.type.includes('image') ? '🖼️' : f.type.includes('word') ? '📝' : f.type.includes('sheet') || f.name.endsWith('.csv') ? '📊' : '📁';
@@ -927,8 +966,7 @@ function renderFileList() {
 }
 
 function downloadFile(id) {
-    const file = DB.getFiles().find(f => f.id == id);
-    if (!file) return;
+    const file = DB.getFiles().find(f => f.id == id); if (!file) return;
     const a = document.createElement('a'); a.href = file.data; a.download = file.name;
     document.body.appendChild(a); a.click(); document.body.removeChild(a);
 }
@@ -941,10 +979,7 @@ function deleteFile(id) {
 // ═══════════════════════════════════════════
 //  CLEAR DATA
 // ═══════════════════════════════════════════
-function initiateClearData() {
-    // Must verify PIN before showing confirm dialog
-    openPinFor('clearData');
-}
+function initiateClearData() { openPinFor('clearData'); }
 
 function executeClearData() {
     document.getElementById('clearOverlay').classList.remove('show');
@@ -954,12 +989,7 @@ function executeClearData() {
 }
 
 // ═══════════════════════════════════════════
-//  RANK TIER — mirrors player app exactly
-//  0-49   🌱 New Pioneer
-//  50-149  💪 Developing Pioneer
-//  150-299 🔥 Rising Pioneer
-//  300-499 ⭐ Senior Pioneer
-//  500+    🏆 Elite Pioneer
+//  RANK TIER
 // ═══════════════════════════════════════════
 function getRankTier(pts) {
     if (pts >= 500) return { label:'🏆 Elite Pioneer',      bg:'rgba(201,168,76,0.22)', border:'rgba(201,168,76,0.7)', color:'#E8C96B' };
@@ -970,7 +1000,7 @@ function getRankTier(pts) {
 }
 
 // ═══════════════════════════════════════════
-//  LEADERBOARD
+//  RENDER LEADERBOARD
 // ═══════════════════════════════════════════
 function renderLeaderboard() {
     const players = DB.allPlayers();
@@ -997,12 +1027,12 @@ function renderLeaderboard() {
 }
 
 // ═══════════════════════════════════════════
-//  PLAYERS
+//  RENDER PLAYERS
 // ═══════════════════════════════════════════
 function renderPlayers() {
     const players = DB.allPlayers();
-    const grid = document.getElementById('playersGrid');
-    const empty = document.getElementById('playersEmpty');
+    const grid    = document.getElementById('playersGrid');
+    const empty   = document.getElementById('playersEmpty');
     if (players.length === 0) { grid.innerHTML = ''; empty.style.display = 'block'; return; }
     empty.style.display = 'none';
     grid.innerHTML = players.map(p => `
@@ -1052,11 +1082,12 @@ function viewPlayer(id) {
             <div class="card-hdr"><span class="card-hdr-title">🎯 Shooting Accuracy</span></div>
             <div class="detail-row"><span class="detail-lbl">Layups</span><span class="detail-val">${ss.layupAccuracy||0}%</span></div>
             <div class="detail-row"><span class="detail-lbl">Mid-Range</span><span class="detail-val">${ss.midRangeAccuracy||0}%</span></div>
-            <div class="detail-row"><span class="detail-lbl">Three Pointers</span><span class="detail-val">${ss.threePointAccuracy||0}%</span></div>
             <div class="detail-row"><span class="detail-lbl">Free Throws</span><span class="detail-val">${ss.freeThrowAccuracy||0}%</span></div>
+            <div class="detail-row"><span class="detail-lbl">Three Pointers</span><span class="detail-val">${ss.threePointAccuracy||0}%</span></div>
         </div>
         <div class="card">
             <div class="card-hdr"><span class="card-hdr-title">💪 Training Activity</span></div>
+            <div class="detail-row"><span class="detail-lbl">Total Drill Days</span><span class="detail-val">${p.totalDrillDays||0}</span></div>
             <div class="detail-row"><span class="detail-lbl">Shot Tests</span><span class="detail-val">${p.shotTestsCompleted||0}</span></div>
             <div class="detail-row"><span class="detail-lbl">Last Updated</span><span class="detail-val" style="font-size:12px">${new Date(p.lastUpdated).toLocaleDateString()}</span></div>
         </div>
@@ -1073,8 +1104,8 @@ function viewPlayer(id) {
 // ═══════════════════════════════════════════
 function renderNotifs() {
     const notifs = DB.get().notifications;
-    const list = document.getElementById('notifList');
-    const empty = document.getElementById('notifEmpty');
+    const list   = document.getElementById('notifList');
+    const empty  = document.getElementById('notifEmpty');
     if (!notifs.length) { list.innerHTML = ''; empty.style.display = 'block'; return; }
     empty.style.display = 'none';
     list.innerHTML = notifs.map(n => `
@@ -1093,10 +1124,10 @@ function renderNotifs() {
 // ═══════════════════════════════════════════
 function exportCSV() {
     const players = DB.allPlayers();
-    let csv = 'Rank,Player,Number,Position,Points,Season Badges,Shooting Badges,Layups,Mid-Range,3-Point,Free Throw,Sessions,Physical,Drills\n';
+    let csv = 'Rank,Player,Number,Position,Points,Season Badges,Shooting Badges,Layups,Mid-Range,Free Throw,3-Point,Sessions,Physical,Drills\n';
     players.forEach((p,i) => {
         const ss = p.shootingStats||{};
-        csv += `${i+1},"${p.name}",${p.number||'—'},"${p.position||'—'}",${p.totalPoints||0},"${(p.badges||[]).join('; ')}","${(p.shootingBadges||[]).join('; ')}",${ss.layupAccuracy||0}%,${ss.midRangeAccuracy||0}%,${ss.threePointAccuracy||0}%,${ss.freeThrowAccuracy||0}%,${p.skillSessionsCompleted||0},${p.physicalSessionsCompleted||0},${p.drillsCompleted||0}\n`;
+        csv += `${i+1},"${p.name}",${p.number||'—'},"${p.position||'—'}",${p.totalPoints||0},"${(p.badges||[]).join('; ')}","${(p.shootingBadges||[]).join('; ')}",${ss.layupAccuracy||0}%,${ss.midRangeAccuracy||0}%,${ss.freeThrowAccuracy||0}%,${ss.threePointAccuracy||0}%,${p.skillSessionsCompleted||0},${p.physicalSessionsCompleted||0},${p.drillsCompleted||0}\n`;
     });
     dl(csv,'guardians-leaderboard.csv','text/csv');
 }
@@ -1107,12 +1138,13 @@ function exportJSON() {
 
 function exportPowerBI() {
     const players = DB.allPlayers();
-    const data = { exportDate:new Date().toISOString(), teamName:'Guardians U14', totalPlayers:players.length,
-        leaderboard: players.map((p,i)=>({
+    const data = {
+        exportDate: new Date().toISOString(), teamName:'Guardians U14', totalPlayers: players.length,
+        leaderboard: players.map((p,i) => ({
             rank:i+1, name:p.name, number:p.number, position:p.position, totalPoints:p.totalPoints||0,
             badges:{ seasonBadges:p.badges||[], shootingBadges:p.shootingBadges||[], total:(p.badges?.length||0)+(p.shootingBadges?.length||0) },
-            shootingAccuracy:{ layups:p.shootingStats?.layupAccuracy||0, midRange:p.shootingStats?.midRangeAccuracy||0, threePointers:p.shootingStats?.threePointAccuracy||0, freeThrows:p.shootingStats?.freeThrowAccuracy||0 },
-            training:{ skillSessions:p.skillSessionsCompleted||0, physicalSessions:p.physicalSessionsCompleted||0, drillsCompleted:p.drillsCompleted||0, shotTests:p.shotTestsCompleted||0 },
+            shootingAccuracy:{ layups:p.shootingStats?.layupAccuracy||0, midRange:p.shootingStats?.midRangeAccuracy||0, freeThrows:p.shootingStats?.freeThrowAccuracy||0, threePointers:p.shootingStats?.threePointAccuracy||0 },
+            training:{ skillSessions:p.skillSessionsCompleted||0, physicalSessions:p.physicalSessionsCompleted||0, drillsCompleted:p.drillsCompleted||0, totalDrillDays:p.totalDrillDays||0, shotTests:p.shotTestsCompleted||0 },
             lastUpdated:p.lastUpdated
         }))
     };
@@ -1132,48 +1164,11 @@ function dl(content, filename, type) {
 let toastTimer;
 function showToast(title, msg) {
     document.getElementById('toastTitle').textContent = title;
-    document.getElementById('toastMsg').textContent = msg;
+    document.getElementById('toastMsg').textContent   = msg;
     const t = document.getElementById('toast');
     t.classList.add('show');
     clearTimeout(toastTimer);
     toastTimer = setTimeout(() => t.classList.remove('show'), 3500);
-}
-
-// ═══════════════════════════════════════════
-//  LIVE PUSH FROM PLAYER APP
-// ═══════════════════════════════════════════
-window.addEventListener('storage', e => {
-    if (e.key && e.key.startsWith('pioneers_last_push_stats') && e.newValue) {
-        try {
-            const s = JSON.parse(e.newValue);
-            DB.upsertPlayer({
-                name: s.playerName||'Unknown', number: s.playerNumber, position: s.position, team: s.team,
-                totalPoints: s.totalPoints||0,
-                badges: s.stats?.badges||[], shootingBadges: s.stats?.shootingBadges||[],
-                shootingStats:{ layupAccuracy:s.stats?.layupAccuracy||0, midRangeAccuracy:s.stats?.midRangeAccuracy||0, threePointAccuracy:s.stats?.threePointAccuracy||0, freeThrowAccuracy:s.stats?.freeThrowAccuracy||0 },
-                skillSessionsCompleted: s.stats?.skillSessions||0,
-                physicalSessionsCompleted: s.stats?.physicalSessions||0,
-                drillsCompleted: s.stats?.drillsCompleted||0,
-                shotTestsCompleted: s.stats?.shotAccuracy||0
-            });
-            const activity = s.lastActivity || 'Updated their stats';
-            DB.addNotification(`📤 ${s.playerName}`, activity);
-            showToast(`✅ ${s.playerName}`, activity);
-            if (currentPage === 'leaderboard') renderLeaderboard();
-        } catch(err) { console.error('Push parse error', err) }
-    }
-});
-
-// ═══════════════════════════════════════════
-//  DEMO DATA
-// ═══════════════════════════════════════════
-function loadDemo() {
-    if (DB.allPlayers().length > 0) return;
-    [
-        { name:'Marcus Johnson', number:23, position:'Guard',   totalPoints:520, badges:['Ball Handling Master','Shooting Master'], shootingBadges:['Gold Three Pointer'], skillSessionsCompleted:12, physicalSessionsCompleted:8,  drillsCompleted:45, shotTestsCompleted:6, shootingStats:{layupAccuracy:88,midRangeAccuracy:72,threePointAccuracy:82,freeThrowAccuracy:91} },
-        { name:'Amir Williams',  number:5,  position:'Forward', totalPoints:340, badges:['Physical Training Master'],              shootingBadges:[],                     skillSessionsCompleted:11, physicalSessionsCompleted:10, drillsCompleted:38, shotTestsCompleted:5, shootingStats:{layupAccuracy:85,midRangeAccuracy:68,threePointAccuracy:76,freeThrowAccuracy:88} },
-        { name:'DeShawn Taylor', number:11, position:'Center',  totalPoints:175, badges:[],                                       shootingBadges:['Gold Layup','Gold Free Throw'], skillSessionsCompleted:9, physicalSessionsCompleted:12, drillsCompleted:32, shotTestsCompleted:4, shootingStats:{layupAccuracy:92,midRangeAccuracy:65,threePointAccuracy:45,freeThrowAccuracy:95} }
-    ].forEach(p => DB.upsertPlayer(p));
 }
 
 // ═══════════════════════════════════════════
@@ -1198,11 +1193,10 @@ function executeDeletePlayer() {
 }
 
 // ═══════════════════════════════════════════
-//  INIT
+//  ★ INIT — load from JSONBin on open ★
 // ═══════════════════════════════════════════
 document.addEventListener('DOMContentLoaded', () => {
-    loadDemo();
-    renderLeaderboard();
+    loadLeaderboard();
 });
 </script>
 </body>
